@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Tema escuro por classe (.dark no <html>), padrão do app. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tokens de cor: os componentes usam bg-fundo, text-texto etc. */
+@theme inline {
+  --color-fundo: var(--fundo);
+  --color-lateral: var(--lateral);
+  --color-superficie: var(--superficie);
+  --color-elevado: var(--elevado);
+  --color-borda: var(--borda);
+  --color-texto: var(--texto);
+  --color-suave: var(--suave);
+  --color-destaque: var(--destaque);
+  --color-destaque-forte: var(--destaque-forte);
+  --color-sobre-destaque: var(--sobre-destaque);
+  --color-bolha: var(--bolha);
+  --color-erro: var(--erro);
+  --color-erro-fundo: var(--erro-fundo);
+  --color-sucesso: var(--sucesso);
+  --color-sucesso-fundo: var(--sucesso-fundo);
+}
+
+:root {
+  --fundo: #ffffff;
+  --lateral: #f7f7f8;
+  --superficie: #ffffff;
+  --elevado: #f1f1f3;
+  --borda: #e4e4e7;
+  --texto: #18181b;
+  --suave: #5f5f69;
+  --destaque: #4f46e5;
+  --destaque-forte: #4338ca;
+  --sobre-destaque: #ffffff;
+  --bolha: #f1f1f4;
+  --erro: #c62828;
+  --erro-fundo: #fdecec;
+  --sucesso: #1b7a43;
+  --sucesso-fundo: #e7f6ed;
+  color-scheme: light;
+}
+
+.dark {
+  --fundo: #151517;
+  --lateral: #1c1c1f;
+  --superficie: #232327;
+  --elevado: #2b2b30;
+  --borda: #34343a;
+  --texto: #ececef;
+  --suave: #a1a1aa;
+  --destaque: #8b8cf8;
+  --destaque-forte: #a5a6fb;
+  --sobre-destaque: #151517;
+  --bolha: #2b2b31;
+  --erro: #f28b82;
+  --erro-fundo: #3a1f1f;
+  --sucesso: #7fd4a0;
+  --sucesso-fundo: #1d3326;
+  color-scheme: dark;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-fundo text-texto antialiased;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+  }
+
+  /* Foco visível consistente para navegação por teclado. */
+  :focus-visible {
+    outline: 2px solid var(--destaque);
+    outline-offset: 2px;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+}
+
+/*
+ * Markdown das respostas do agente, usando os tokens do tema.
+ * Fora de @layer de propósito: o plugin de tipografia define as mesmas
+ * variáveis na camada utilities, e CSS sem camada tem prioridade sobre ela.
+ */
+.markdown {
+  --tw-prose-body: var(--texto);
+  --tw-prose-headings: var(--texto);
+  --tw-prose-lead: var(--suave);
+  --tw-prose-bold: var(--texto);
+  --tw-prose-links: var(--destaque);
+  --tw-prose-bullets: var(--suave);
+  --tw-prose-counters: var(--suave);
+  --tw-prose-quotes: var(--suave);
+  --tw-prose-quote-borders: var(--borda);
+  --tw-prose-captions: var(--suave);
+  --tw-prose-kbd: var(--texto);
+  --tw-prose-hr: var(--borda);
+  --tw-prose-code: var(--texto);
+  --tw-prose-th-borders: var(--borda);
+  --tw-prose-td-borders: var(--borda);
+  --tw-prose-pre-bg: transparent;
+  --tw-prose-pre-code: var(--texto);
+}
+
+.markdown :where(code):not(:where(pre *)) {
+  border-radius: 0.25rem;
+  background-color: var(--elevado);
+  padding: 0.125rem 0.375rem;
+  font-weight: 400;
+}
+
+.markdown :where(code):not(:where(pre *))::before,
+.markdown :where(code):not(:where(pre *))::after {
+  content: none;
+}
+
+@keyframes pulsar {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.ponto-digitando {
+  animation: pulsar 1.2s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ponto-digitando {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
+}
